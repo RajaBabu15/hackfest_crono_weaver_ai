@@ -106,7 +106,7 @@ def main():
         # Wait before next refresh
         if auto_refresh:
             time.sleep(refresh_rate)
-            st.experimental_rerun()
+            st.rerun()
         else:
             break
 

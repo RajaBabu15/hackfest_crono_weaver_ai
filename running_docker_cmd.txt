@@ -1,11 +1,11 @@
-command 1: sudo docker build -t pathway-ticket .
+command 1: sudo docker build -t pathway-ticket1 .
 
 [optional]
 {command 2: sudo docker kill all
 
-command 3: sudo docker rm pathway-ticket}
+command 3: sudo docker rm pathway-ticket1}
 
-command 4: sudo docker run -it --name pathway-ticket -p 8501:8501 -v $(pwd)/local_input_data:/app/data/input -v $(pwd)/local_output_data:/app/data/output pathway-ticket
+command 4: sudo docker run -it --name pathway-ticket1 -p 8501:8501 -v $(pwd)/local_input_data:/app/data/input -v $(pwd)/local_output_data:/app/data/output pathway-ticket
 
 
 sudo docker build -t pathway-search-app . && sudo docker kill $(docker ps -q) && sudo docker rm pathway-search && sudo docker run -it --name pathway-search -p 8501:8501 -v $(pwd)/local_input_data:/app/data/input -v $(pwd)/local_output_data:/app/data/output pathway-search-app
