@@ -1,3 +1,4 @@
+# streamlit_app.py
 import os
 import csv
 import numpy as np
@@ -303,7 +304,7 @@ def main():
             # Auto-refresh logic
             if auto_refresh:
                 time.sleep(5)
-                st.experimental_rerun()
+                st.rerun()
     
     # Search tab
     with tab1:

@@ -1,3 +1,4 @@
+# pathway_script.py
 import pathway as pw
 import os
 from sentence_transformers import SentenceTransformer

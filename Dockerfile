@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Install specific dependencies needed by the scripts
 # This includes Streamlit for the web interface
-RUN pip install --no-cache-dir sentence-transformers torch streamlit
+RUN pip install sentence-transformers torch streamlit
 
 # Copy the Python scripts into the working directory
 COPY pathway_script.py .
@@ -20,7 +20,7 @@ RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTr
 RUN mkdir -p /app/data/input /app/data/output
 
 # Expose the port that Streamlit will run on
-EXPOSE 8501
+EXPOSE 8502
 
 # Create a startup script to run both Pathway and Streamlit
 RUN echo '#!/bin/bash\npython ./pathway_script.py & streamlit run streamlit_app.py' > /app/start.sh && \
