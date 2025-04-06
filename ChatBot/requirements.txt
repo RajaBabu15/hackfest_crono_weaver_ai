@@ -1,0 +1,10 @@
+streamlit
+google-generativeai
+python-dotenv
+pathway[xpack-llm,xpack-llm-docs]
+langchain
+langchain-community
+langchain-text-splitters
+openai
+docling
+PyPDF2
