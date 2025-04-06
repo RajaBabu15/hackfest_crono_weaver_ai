@@ -1,0 +1,20 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install required packages
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create directory for data
+RUN mkdir -p Data
+
+# Set environment variables
+ENV PATHWAY_HOST=0.0.0.0
+ENV PATHWAY_PORT=8000
+
+# Expose the Pathway port
+EXPOSE 8000
+
+# Start the Pathway server
+CMD ["python", "-c", "import pathway as pw; from pathway.xpacks.llm.vector_store import VectorStoreServer; server = VectorStoreServer(); server.run()"]

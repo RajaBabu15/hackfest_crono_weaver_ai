@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  pathway-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.pathway
+    ports:
+      - "8000:8000"
+    environment:
+      - PATHWAY_API_KEY=${PATHWAY_API_KEY}
+    volumes:
+      - ./Data:/app/Data
+  
+  chatbot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - PATHWAY_HOST=pathway-server
+      - PATHWAY_PORT=8000
+      - PATHWAY_API_KEY=${PATHWAY_API_KEY}
+    volumes:
+      - ./Data:/app/Data
+    depends_on:
+      - pathway-server
