@@ -1,67 +1,46 @@
-# Use the official Pathway image as the base
 FROM pathwaycom/pathway:latest
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Install specific dependencies needed by the scripts
-# This includes Streamlit for the web interface
-RUN pip install sentence-transformers torch streamlit
+ARG NB_USER=pathway
+ARG NB_UID=1000
+ARG NB_GID=1000
+ARG EMBEDDING_MODEL_NAME=all-MiniLM-L6-v2
 
-# Copy the Python scripts into the working directory
-COPY pathway_script.py .
-COPY streamlit_app.py .
+RUN groupadd -g ${NB_GID} ${NB_USER} && \
+    useradd -u ${NB_UID} -g ${NB_GID} -m ${NB_USER}
 
-# Pre-download the Sentence Transformer model during the build phase
-# This avoids downloading it every time the container runs and makes startup faster
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
-# Create the expected data directories within the container image
-RUN mkdir -p /app/data/input /app/data/output
+COPY requirements.txt .
 
-# Expose the port that Streamlit will run on
-EXPOSE 8502
+RUN pip install --upgrade pip --no-cache-dir && \
+    pip install --no-cache-dir -r requirements.txt && \
+    python --version
 
-# Create a startup script to run both Pathway and Streamlit
-RUN echo '#!/bin/bash\npython ./pathway_script.py & streamlit run streamlit_app.py' > /app/start.sh && \
-    chmod +x /app/start.sh
+COPY ./src ./src
+COPY ./scripts ./scripts
+COPY ./start.sh .
 
-# Command to run when the container starts
+RUN mkdir -p /app/data/input /app/data/output && \
+    chown -R ${NB_UID}:${NB_GID} /app/data
+
+RUN chmod +x /app/start.sh
+
+USER ${NB_USER}
+
+# ----> Add Step to clear cache <----
+RUN echo "Clearing Hugging Face cache..." && \
+    rm -rf /home/${NB_USER}/.cache/huggingface && \
+    echo "Cache cleared."
+# ------------------------------------
+
+# Pre-download the embedding model AS THE RUNTIME USER
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('${EMBEDDING_MODEL_NAME}')"
+
+EXPOSE 8501
+EXPOSE 8000
+
 CMD ["/app/start.sh"]
-
-
-
-
-
-
-
-
-
-
-
-# # Use the official Pathway image as the base
-# FROM pathwaycom/pathway:latest
-
-# # Set the working directory inside the container
-# WORKDIR /app
-
-# # Install specific dependencies needed by the script
-# # sentence-transformers requires torch (PyTorch)
-# # Using --no-cache-dir saves space in the final image layer.
-# RUN pip install --no-cache-dir sentence-transformers torch
-
-# # Copy the Python script into the working directory
-# COPY pathway_script.py .
-
-# # Pre-download the Sentence Transformer model during the build phase
-# # This avoids downloading it every time the container runs and makes startup faster.
-# # Replace 'all-MiniLM-L6-v2' if you changed the model name.
-# RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
-
-# # Create the expected data directories within the container image
-# # Although volumes will overlay these, creating them makes intent clearer
-# # and ensures they exist if volumes aren't mounted for some reason.
-# RUN mkdir -p /app/data/input /app/data/output
-
-# # Command to run when the container starts
-# CMD ["python", "./pathway_script.py"]
