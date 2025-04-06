@@ -89,7 +89,7 @@ def search_tickets(query: str, model, embeddings: np.ndarray, tickets: list, top
         similarities = np.dot(embeddings_norm, query_norm)
         
         # Get top results
-        top_indices = np.argsort(similarities)[-top_k:][::-1]
+        top_indices1= np.argsort(similarities)[-top_k:][::-1]
         return [{
             **tickets[i],
             "similarity": float(similarities[i]),
