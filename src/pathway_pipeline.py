@@ -1,10 +1,10 @@
 # python src/pathway_pipeline.py
 
 import pathway as pw
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer # can use 'from pathway.xpacks.llm.embedders import OpenAIEmbedder'
 import pandas as pd
 import os
-from typing import List # Import List if not already there
+from typing import List
 
 from src import config
 
@@ -18,7 +18,7 @@ class TicketSchema(pw.Schema):
     body: str
 
 print(f"Loading embedding model: {config.EMBEDDING_MODEL_NAME}...")
-embedding_model = SentenceTransformer(config.EMBEDDING_MODEL_NAME)
+embedding_model = SentenceTransformer(config.EMBEDDING_MODEL_NAME)   # can use 'from pathway.xpacks.llm.embedders import OpenAIEmbedder'
 print("Model loaded.")
 
 # Modify the UDF to operate on column inputs, not DataFrames

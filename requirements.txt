@@ -1,8 +1,4 @@
 pathway==0.12.0
-llama-index
-llama-index-llms-openai
-llama-index-embeddings-huggingface # <-- ADD THIS LINE
-# llama-index-vector-stores-pathway==0.1.3 # Stays removed
 openai>=1.0.0
 sentence-transformers>=2.2.0
 torch

@@ -29,10 +29,10 @@ Unlike traditional RAG systems, Akaśa continuously ingests and processes new da
 Akaśa is built on a modern, microservices-based architecture:
 
 ```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│ Data Sources│    │   Pathway   │    │   Vector    │    │  RAG Engine │    │ UI & API    │
-│  (CSV, PDF) │───▶│  Pipeline   │───▶│   Store     │───▶│  (LlamaIdx) │───▶│ Interfaces  │
-└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐      ┌─────────────┐
+│ Data Sources│    │   Pathway   │    │   Vector    │      │ UI & API    │
+│  (CSV, PDF) │───▶│  Pipeline   │───▶│   Store     │────▶│ Interfaces  │
+└─────────────┘    └─────────────┘    └─────────────┘      └─────────────┘
 ```
 
 ## Installation and Setup
@@ -189,6 +189,5 @@ MIT License. See [LICENSE](LICENSE) for more information.
 ## Acknowledgements
 
 - [Pathway](https://pathway.com/) for real-time data processing capabilities.
-- [LlamaIndex](https://www.llamaindex.ai/) for RAG framework.
 - [Streamlit](https://streamlit.io/) for the UI framework.
 

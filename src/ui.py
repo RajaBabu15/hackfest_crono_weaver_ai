@@ -385,16 +385,8 @@ with tab2:
         └─────────────┘
         ```
         """)
+    
     with arch_cols[3]:
-        st.markdown("""
-        ```
-        ┌─────────────┐
-        │  RAG Engine │
-        │  (LlamaIdx) │
-        └─────────────┘
-        ```
-        """)
-    with arch_cols[4]:
         st.markdown("""
         ```
         ┌─────────────┐
